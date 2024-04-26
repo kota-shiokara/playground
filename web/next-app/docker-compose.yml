@@ -1,0 +1,13 @@
+services:
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./front:/front
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm run dev"
+    tty: true
+    ports:
+      - "3000:3000"
