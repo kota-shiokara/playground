@@ -14,38 +14,43 @@ fun Application.configureDatabases() {
             driver = "org.h2.Driver",
             password = ""
         )
-    val userService = UserService(database)
+    val todoService = TodoService(database)
     routing {
         // Create user
-        post("/users") {
-            val user = call.receive<ExposedUser>()
-            val id = userService.create(user)
+        post("/todo") {
+            val todo = call.receive<ExposedTodo>()
+            val id = todoService.create(todo)
             call.respond(HttpStatusCode.Created, id)
+        }
+
+        get("/todo") {
+            val todoAll = todoService.readAll()
+            call.respond(todoAll)
         }
         
             // Read user
-        get("/users/{id}") {
+        get("/todo/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-            val user = userService.read(id)
-            if (user != null) {
-                call.respond(HttpStatusCode.OK, user)
+            val todo = todoService.read(id)
+            if (todo != null) {
+                call.respond(HttpStatusCode.OK, todo)
             } else {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
         
             // Update user
-        put("/users/{id}") {
+        put("/todo/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-            val user = call.receive<ExposedUser>()
-            userService.update(id, user)
+            val todo = call.receive<ExposedTodo>()
+            todoService.update(id, todo)
             call.respond(HttpStatusCode.OK)
         }
         
             // Delete user
-        delete("/users/{id}") {
+        delete("/todo/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid ID")
-            userService.delete(id)
+            todoService.delete(id)
             call.respond(HttpStatusCode.OK)
         }
     }
