@@ -1,12 +1,14 @@
 'use client'
 import { useState } from "react";
 
-type Child1Props = {
-  children: React.ReactNode;
-};
-function Child1({children}: Child1Props) {
+function Child1() {
   console.log(`Child1`);
-  return <div>{children}</div>;
+  return (
+    <div>
+      <Child2 />
+      <Child3 />
+    </div>
+  );
 }
 
 function Child2() {
@@ -34,8 +36,7 @@ export default function Home() {
   return (
     <main>
       <Child1>
-        <Child2 />
-        <Child3 />
+        
       </Child1>
       <Child4 />
       <button onClick={onClick}>Click</button>
