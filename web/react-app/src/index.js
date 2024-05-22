@@ -1,4 +1,10 @@
 import ReactDOM from 'react-dom';
 import { App } from './App';
+import { AdminFlagProvider } from './components/providers/AdminFlagProviders';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    <AdminFlagProvider>
+        <App />
+    </AdminFlagProvider>
+);
